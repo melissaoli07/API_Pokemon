@@ -7,7 +7,8 @@ export async function generateStaticParams() {
 }
 
 export default async function InfoDetails({ params, }: { params: { slug: string};}) {
-   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.slug}`);
+   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.slug}`,
+   { next: { revalidate: 60 } });
    const pokemon = await response.json();
 
    return (
@@ -18,6 +19,6 @@ export default async function InfoDetails({ params, }: { params: { slug: string}
         height={80}
         alt={pokemon.name}
         />
-    <h2 className="text-2xl mb-4 font-bold">{pokemon.name}</h2>
-    </div>)
+        <h2 className="text-2xl mb-4 font-bold">{pokemon.name}</h2>
+        </div>);
 }
